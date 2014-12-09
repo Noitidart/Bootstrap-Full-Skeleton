@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE mydialog SYSTEM "chrome://globalfindbar/locale/options.dtd">
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <setting data-jetpack-id="jid0-GlobalFindBar@jetpack" pref="extensions.jid0-GlobalFindBar@jetpack.restore_old_style" pref-name="restore_old_style" title="Restore Old Style" type="bool">
+    Applies the pre-FF25 looks to the find bar
+  </setting>
+  <setting data-jetpack-id="jid0-GlobalFindBar@jetpack" pref="extensions.jid0-GlobalFindBar@jetpack.tabScope" pref-name="tabScope" title="Tab Scope" type="menulist">
+    Findbar state is matched in tabs that meet this criteria
+    <menulist>
+      <menupopup>
+        <menuitem label="All Tabs" value="0"/>
+        <menuitem label="Per Tab Domain" value="1"/>
+      </menupopup>
+    </menulist>
+  </setting>
+  <setting data-jetpack-id="jid0-GlobalFindBar@jetpack" pref="extensions.jid0-GlobalFindBar@jetpack.winScope" pref-name="winScope" title="Window Scope" type="menulist">
+    Findbar state is matched in windows that meet this criteria
+    <menulist>
+      <menupopup>
+        <menuitem label="Per Window" value="0"/>
+        <menuitem label="All Windows" value="1"/>
+      </menupopup>
+    </menulist>
+  </setting>
+  <setting data-jetpack-id="jid0-GlobalFindBar@jetpack" pref="extensions.jid0-GlobalFindBar@jetpack.findbarFocus" pref-name="findbarFocus" title="Findbar Autofocus" type="menulist">
+    Criteria defining if opened findbar should be focused when tab is selected
+    <menulist>
+      <menupopup>
+        <menuitem label="Always" value="0"/>
+        <menuitem label="When Active Element NOT Editable" value="1"/>
+        <menuitem label="Never" value="2"/>
+      </menupopup>
+    </menulist>
+  </setting>
+</vbox>
