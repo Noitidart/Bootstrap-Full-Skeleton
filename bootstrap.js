@@ -444,25 +444,37 @@ var windowListener = {
 	onCloseWindow: function (aXULWindow) {},
 	onWindowTitleChange: function (aXULWindow, aNewTitle) {},
 	register: function () {
+		
 		// Load into any existing windows
-		var DOMWindows = Services.wm.getEnumerator(null);
+		let DOMWindows = Services.wm.getEnumerator(null);
 		while (DOMWindows.hasMoreElements()) {
-			var aDOMWindow = DOMWindows.getNext();
-			windowListener.loadIntoWindow(aDOMWindow);
+			let aDOMWindow = DOMWindows.getNext();
+			if (aDOMWindow.document.readyState == 'complete') { //on startup `aDOMWindow.document.readyState` is `uninitialized`
+				windowListener.loadIntoWindow(aDOMWindow);
+			} else {
+				aDOMWindow.addEventListener('load', function () {
+					aDOMWindow.removeEventListener('load', arguments.callee, false);
+					windowListener.loadIntoWindow(aDOMWindow);
+				}, false);
+			}
 		}
 		// Listen to new windows
 		Services.wm.addListener(windowListener);
 	},
 	unregister: function () {
+		// Unload from any existing windows
+		let DOMWindows = Services.wm.getEnumerator(null);
+		while (DOMWindows.hasMoreElements()) {
+			let aDOMWindow = DOMWindows.getNext();
+			windowListener.unloadFromWindow(aDOMWindow);
+		}
+		/*
+		for (var u in unloaders) {
+			unloaders[u]();
+		}
+		*/
 		//Stop listening so future added windows dont get this attached
 		Services.wm.removeListener(windowListener);
-		
-		// Unload from any existing windows
-		var DOMWindows = Services.wm.getEnumerator(null);
-		while (DOMWindows.hasMoreElements()) {
-			var aDOMWindow = DOMWindows.getNext();
-			windowListener.unloadFromWindow(aDOMWindow);
-		}		
 	},
 	//END - DO NOT EDIT HERE
 	loadIntoWindow: function (aDOMWindow) {
